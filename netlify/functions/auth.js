@@ -82,11 +82,23 @@ exports.handler = async (event, context) => {
 
         // Route to registerHandler if email or company_name is present
         if (parsedBody.email || parsedBody.company_name) {
+            if (!parsedBody.username || !parsedBody.email || !parsedBody.password || !parsedBody.company_name) {
+                return {
+                    statusCode: 400,
+                    body: JSON.stringify({ message: 'Username, email, password, and company name are required for registration.' }),
+                };
+            }
             return await registerHandler(event, context);
         }
 
         // Route to loginHandler if identifier is present
         if (parsedBody.identifier) {
+            if (!parsedBody.password) {
+                return {
+                    statusCode: 400,
+                    body: JSON.stringify({ message: 'Identifier and password are required for login.' }),
+                };
+            }
             return await loginHandler(event, context);
         }
 
