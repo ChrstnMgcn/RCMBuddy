@@ -69,7 +69,7 @@ exports.handler = async function(event) {
                 body: JSON.stringify({ message: 'Username or email already exists.' }),
             };
         }
-        console.error('Database error:', error);
+        console.log('Database error:', error);
         return {
             statusCode: 500, 
             body: JSON.stringify({ message: 'Could not register user. An unexpected error occurred.' }),
