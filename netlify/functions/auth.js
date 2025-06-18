@@ -79,16 +79,18 @@ exports.handler = async (event, context) => {
         }
 
         const parsedBody = body ? JSON.parse(body) : {};
-        const { type } = parsedBody;
 
-        if (type === 'login') {
-            return await loginHandler(event, context);
-        }
-
-        if (type === 'register') {
+        // Route to registerHandler if email or company_name is present
+        if (parsedBody.email || parsedBody.company_name) {
             return await registerHandler(event, context);
         }
 
+        // Route to loginHandler if identifier is present
+        if (parsedBody.identifier) {
+            return await loginHandler(event, context);
+        }
+
+        // Handle token verification
         if (event.path.includes('/verify')) {
             const result = verifyToken(event);
             return {
@@ -99,7 +101,7 @@ exports.handler = async (event, context) => {
 
         return {
             statusCode: 400,
-            body: JSON.stringify({ message: 'Invalid request. Specify type as "login" or "register".' }),
+            body: JSON.stringify({ message: 'Invalid request. Missing required fields.' }),
         };
     } catch (error) {
         console.error('Auth handler error:', error);
