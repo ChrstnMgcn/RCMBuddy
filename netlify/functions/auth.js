@@ -1,5 +1,4 @@
 // netlify/functions/auth.js
-
 const jwt = require('jsonwebtoken');
 const { handler: loginHandler } = require('./login');
 const { handler: registerHandler } = require('./register');
@@ -10,7 +9,7 @@ const { handler: registerHandler } = require('./register');
  * @returns {Object} An object containing statusCode and user data if successful, or an error response.
  */
 const verifyToken = (event) => {
-    const authHeader = event.headers.authorization;
+    const authHeader = event.headers.authorization || event.headers.Authorization; // Support both cases
     if (!authHeader) {
         return {
             statusCode: 401,
@@ -71,6 +70,17 @@ const hasRole = (user, requiredRole) => {
 exports.handler = async (event, context) => {
     try {
         const { httpMethod, body } = event;
+
+        // Handle GET requests for token verification
+        if (httpMethod === 'GET') {
+            const result = verifyToken(event);
+            return {
+                statusCode: result.statusCode,
+                body: result.body || JSON.stringify({ user: result.user }),
+            };
+        }
+
+        // Handle POST requests for login/register
         if (httpMethod !== 'POST') {
             return {
                 statusCode: 405,
@@ -95,14 +105,14 @@ exports.handler = async (event, context) => {
         if (parsedBody.identifier) {
             if (!parsedBody.password) {
                 return {
-                    statusCode: 400,
-                    body: JSON.stringify({ message: 'Identifier and password are required for login.' }),
+                statusCode: 400,
+                body: JSON.stringify({ message: 'Identifier and password are required for login.' }),
                 };
             }
             return await loginHandler(event, context);
         }
 
-        // Handle token verification
+        // Handle token verification for POST /verify (keep for backward compatibility if needed)
         if (event.path.includes('/verify')) {
             const result = verifyToken(event);
             return {
