@@ -43,7 +43,7 @@ async function initDashboard(user) {
         // Calling a new backend function to get the list of tools assigned to this user's company
         // You will need to implement this new backend function `get-accessible-tools.js`
         // in `netlify/functions/user-auth/` or similar.
-        const response = await fetch('/api/get-accessible-tools', {
+        const response = await fetch('/.netlify/functions/get-accessible-tools', {
             method: 'GET',
             headers: { 'Authorization': `Bearer ${token}` }
         });
