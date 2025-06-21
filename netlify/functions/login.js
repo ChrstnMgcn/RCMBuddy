@@ -30,6 +30,11 @@ exports.handler = async function(event) {
 
     let client; // Declare client outside try block for finally access
 
+    return {
+        //statusCode: 500, // Internal Server Error
+        body: JSON.stringify({ message: 'Testing something: '.password })
+    };
+
     try {
         // NEW: Connect to the database using the centralized utility
         client = await createDbClient();
@@ -43,10 +48,7 @@ exports.handler = async function(event) {
         const result = await client.query(query, [identifier]);
 
         const user = result.rows[0];
-        return {
-            //statusCode: 500, // Internal Server Error
-            body: JSON.stringify({ message: 'Testing something: '.result })
-        };
+        
 
         // STEP 1: Check if a user with that username/email even exists.
         // If not, we return a generic "Invalid credentials" error to avoid revealing
