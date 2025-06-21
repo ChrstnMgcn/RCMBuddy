@@ -3,7 +3,8 @@ const { Client } = require('pg');
 
 async function createDbClient() {
     const client = new Client({
-        connectionString: process.env.NEON_DATABASE_URL,
+        //connectionString: process.env.NEON_DATABASE_URL,
+        connectionString: 'postgresql://neondb_owner:npg_GDeTcy0xCKd1@ep-autumn-night-a5acrhgw-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require',
         ssl: {
             rejectUnauthorized: false
         }

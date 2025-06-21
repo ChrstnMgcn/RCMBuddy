@@ -30,11 +30,6 @@ exports.handler = async function(event) {
 
     let client; // Declare client outside try block for finally access
 
-    return {
-        //statusCode: 500, // Internal Server Error
-        body: JSON.stringify({ message: 'Testing something: '.password })
-    };
-
     try {
         // NEW: Connect to the database using the centralized utility
         client = await createDbClient();
