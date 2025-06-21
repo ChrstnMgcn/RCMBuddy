@@ -19,7 +19,7 @@ async function verifyAndSetupUser() {
 
     try {
         // Call the protected endpoint to verify token and get user data
-        const response = await fetch(`${API_BASE}/protected`, {
+        const response = await fetch(`/.netlify/functions/auth`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`

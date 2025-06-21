@@ -208,7 +208,7 @@
 
             try {
                 // 1. Validate token and get user role
-                const protectedRes = await fetch('/api/protected', {
+                const protectedRes = await fetch('/.netlify/functions/auth', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 
@@ -299,7 +299,7 @@
         async function loadCompanyUsers() {
             try {
                 const token = localStorage.getItem('jwtToken');
-                const response = await fetch('/api/admin/get-company-users', {
+                const response = await fetch('/.netlify/functions/get-company-users', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await response.json();
@@ -362,7 +362,7 @@
         async function loadAvailableToolsForAssignment() {
             try {
                 const token = localStorage.getItem('jwtToken');
-                const response = await fetch('/api/user-auth/get-accessible-tools', { // Reuse get-accessible-tools
+                const response = await fetch('/.netlify/functions/get-accessible-tools', { // Reuse get-accessible-tools
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await response.json();
@@ -401,7 +401,7 @@
                 const token = localStorage.getItem('jwtToken');
                 // You'll need a backend function to get the current company's default tools.
                 // Assuming /api/admin/get-company-defaults. This is a NEW API you'd create.
-                const response = await fetch(`/api/admin/get-company-defaults?companyId=${companyId}`, { // NEW API PATH
+                const response = await fetch(`/.netlify/functions/get-company-defaults?companyId=${companyId}`, { // NEW API PATH
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await response.json();
@@ -446,7 +446,7 @@
             try {
                 const token = localStorage.getItem('jwtToken');
                 // This is a new API you'd create for superadmins
-                const response = await fetch('/api/admin/get-all-companies', { // NEW API PATH for superadmin
+                const response = await fetch('/.netlify/functions/get-all-companies', { // NEW API PATH for superadmin
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await response.json();
@@ -476,7 +476,7 @@
             try {
                 const token = localStorage.getItem('jwtToken');
                 // This is a new API you'd create for superadmins
-                const response = await fetch('/api/admin/get-all-tools', { // NEW API PATH for superadmin
+                const response = await fetch('/.netlify/functions/get-all-tools', { // NEW API PATH for superadmin
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await response.json();
@@ -514,7 +514,7 @@
 
             try {
                 const token = localStorage.getItem('jwtToken');
-                const response = await fetch('/api/user-auth/register', { // Reusing main register API, but could be admin-specific
+                const response = await fetch('/.netlify/functions/register', { // Reusing main register API, but could be admin-specific
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -542,7 +542,7 @@
             displayFormMessage('user-manage-message', 'Deactivating user...', 'info');
             try {
                 const token = localStorage.getItem('jwtToken');
-                const response = await fetch('/api/admin/deactivate-user', { // Target new deactivate function
+                const response = await fetch('/.netlify/functions/deactivate-user', { // Target new deactivate function
                     method: 'POST', // Or DELETE if preferred in backend
                     headers: {
                         'Content-Type': 'application/json',
@@ -579,7 +579,7 @@
 
             try {
                 const token = localStorage.getItem('jwtToken');
-                const response = await fetch('/api/admin/update-user-tools', { // Target new update-user-tools function
+                const response = await fetch('/.netlify/functions/update-user-tools', { // Target new update-user-tools function
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -613,7 +613,7 @@
 
             try {
                 const token = localStorage.getItem('jwtToken');
-                const response = await fetch('/api/admin/update-company-defaults', { // Target update-company-defaults
+                const response = await fetch('/.netlify/functions/update-company-defaults', { // Target update-company-defaults
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -645,7 +645,7 @@
             try {
                 const token = localStorage.getItem('jwtToken');
                 // You'll need to create a backend function for superadmins to create tools
-                const response = await fetch('/api/admin/create-tool', { // NEW API PATH (for superadmin)
+                const response = await fetch('/.netlify/functions/create-tool', { // NEW API PATH (for superadmin)
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -684,7 +684,7 @@
             try {
                 const token = localStorage.getItem('jwtToken');
                 // You'll need a backend function for superadmins to assign tools to companies
-                const response = await fetch('/api/admin/assign-tool-to-company', { // NEW API PATH (for superadmin)
+                const response = await fetch('/.netlify/functions/assign-tool-to-company', { // NEW API PATH (for superadmin)
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
