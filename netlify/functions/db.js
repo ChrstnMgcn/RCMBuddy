@@ -13,12 +13,14 @@ async function createDbClient() {
     return client;
 }
 
+// Export createDbClient for use in other files
+module.exports.createDbClient = createDbClient;
+
+// Netlify function handler
 exports.handler = async function (event, context) {
     try {
-        // Create a database client
         const client = await createDbClient();
 
-        // Example: Handle a POST request
         if (event.httpMethod !== 'POST') {
             return {
                 statusCode: 405,
@@ -26,16 +28,11 @@ exports.handler = async function (event, context) {
             };
         }
 
-        // Parse the request body (e.g., to get query parameters or data)
         const body = JSON.parse(event.body || '{}');
-
-        // Example: Run a simple query (customize based on your needs)
         const { rows } = await client.query('SELECT NOW() as current_time');
 
-        // Close the database connection
         await client.end();
 
-        // Return the query result
         return {
             statusCode: 200,
             body: JSON.stringify({
