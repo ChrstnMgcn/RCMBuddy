@@ -72,7 +72,7 @@ exports.handler = async function(event) {
         console.log('Database error:', error);
         return {
             statusCode: 500, 
-            body: JSON.stringify({ message: 'Could not register user. An unexpected error occurred.' }),
+            body: JSON.stringify({ message: 'Could not register user. An unexpected error occurred.'.error }),
         };
     } finally {
         if (client) {
